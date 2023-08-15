@@ -34,3 +34,7 @@
 .square:nth-child(16n) {
     border-right: 1px rgb(184, 184, 184) solid;
 }
+
+.colorBlack {
+    background-color: black;
+}

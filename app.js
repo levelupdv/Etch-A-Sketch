@@ -14,6 +14,6 @@ for (let i = 0; i < gridSize; i++) {
 let gridBox = document.querySelectorAll('.square');
 
 
-gridBox.forEach((box) => box.addEventListener('mouseenter', function(hover) {
-    console.log(hover);
+gridBox.forEach((box) => box.addEventListener('mouseover', function(e) {
+    box.classList.add('colorBlack');
 }));
