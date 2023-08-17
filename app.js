@@ -2,6 +2,9 @@ const container = document.querySelector('#container');
 const resetButton = document.querySelector('#reset');
 const gridValue = document.querySelector('#gridValue');
 const slider = document.querySelector('#slider');
+const blackButton = document.querySelector('#blackColor');
+const colorButton = document.querySelector('#randomColor');
+
 
 let gridSize = parseInt(slider.value * slider.value);
 
@@ -35,7 +38,6 @@ function makeGrid() {
         });
 
     }
-    drawBlack();
 }
 makeGrid();
 
@@ -46,16 +48,33 @@ function drawBlack() {
     }));
 }
 
+function randomColor(random) {
+    random = Math.floor(Math.random() * 256);
+    return random;
+}
+
+function drawRandomColor() {
+    let gridBox = document.querySelectorAll('.square');
+    gridBox.forEach((box) => box.addEventListener('mouseover', function (e) {
+        box.style.backgroundColor = `rgb(${randomColor()}, ${randomColor()}, ${randomColor()})`;
+    }));
+}
+let colorChoice = drawBlack();
+
+blackButton.addEventListener('click', function() {
+    colorChoice = drawBlack();
+});
+colorButton.addEventListener('click', function() {
+    colorChoice = drawRandomColor();
+});
+
 function reset() {
     while (container.hasChildNodes()) {
         container.removeChild(container.firstChild)
     }
     makeGrid();
+    
 }
-
-
-
-
 
 
 resetButton.addEventListener('click', reset);
