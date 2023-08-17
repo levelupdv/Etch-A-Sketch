@@ -1,4 +1,5 @@
 const container = document.querySelector('#container');
+const resetButton = document.querySelector('#reset');
 const gridNums = [16, 24, 48, 64, 80, 100]
 
 let gridSize = gridNums[0] * gridNums[0]
@@ -30,3 +31,12 @@ let gridBox = document.querySelectorAll('.square');
 gridBox.forEach((box) => box.addEventListener('mouseover', function (e) {
     box.style.backgroundColor = 'black';
 }));
+
+function reset() {
+    
+    gridBox.forEach(square => square.style.backgroundColor = '')
+}
+
+resetButton.addEventListener('click', reset);
+
+// keys.forEach(key => key.addEventListener('transitionend', removeTransition));
