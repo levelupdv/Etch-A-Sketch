@@ -8,13 +8,13 @@ const colorButton = document.querySelector('#randomColor');
 
 let gridSize = parseInt(slider.value * slider.value);
 
-gridValue.textContent = `${slider.value} x ${slider.value}`;
-
-slider.addEventListener('change', function () {
+slider.addEventListener('input', function () {
     gridValue.innerText = `${slider.value} x ${slider.value}`;
     gridSize = parseInt(slider.value * slider.value);
     reset();
 });
+
+gridValue.textContent = `${slider.value} x ${slider.value}`;
 
 function makeGrid() {
     let boxSize = Math.sqrt((400 * 400) / (gridSize));
@@ -26,45 +26,42 @@ function makeGrid() {
         square.style.borderLeft = '1px rgb(210, 210, 210) solid';
         square.style.borderBottom = '1px rgb(210, 210, 210) solid';
         container.append(square);
-        const topSquares = document.querySelectorAll(`.square:nth-child(-n + ${slider.value})`);
-        const rightSquares = document.querySelectorAll(`.square:nth-child(${slider.value}n)`);
-
-        topSquares.forEach(topSquare => {
-            topSquare.style.borderTop = '1px rgb(210, 210, 210) solid'
-        });
-
-        rightSquares.forEach(rightSquare => {
-            rightSquare.style.borderRight = '1px rgb(210, 210, 210) solid'
-        });
-
     }
+    const topSquares = document.querySelectorAll(`.square:nth-child(-n + ${slider.value})`);
+    const rightSquares = document.querySelectorAll(`.square:nth-child(${slider.value}n)`);
+    topSquares.forEach(topSquare => {
+        topSquare.style.borderTop = '1px rgb(210, 210, 210) solid'
+    });
+    rightSquares.forEach(rightSquare => {
+        rightSquare.style.borderRight = '1px rgb(210, 210, 210) solid'
+    });
+    drawBlack();
 }
-makeGrid();
 
 function drawBlack() {
     let gridBox = document.querySelectorAll('.square');
-    gridBox.forEach((box) => box.addEventListener('mouseover', function (e) {
+    gridBox.forEach((box) => box.addEventListener('mouseover', function () {
         box.style.backgroundColor = 'black';
     }));
 }
 
-function randomColor(random) {
+function getRandomColor(random) {
     random = Math.floor(Math.random() * 256);
     return random;
 }
 
 function drawRandomColor() {
     let gridBox = document.querySelectorAll('.square');
-    gridBox.forEach((box) => box.addEventListener('mouseover', function (e) {
-        box.style.backgroundColor = `rgb(${randomColor()}, ${randomColor()}, ${randomColor()})`;
+    gridBox.forEach((box) => box.addEventListener('mouseover', function () {
+        box.style.backgroundColor = `rgb(${getRandomColor()}, ${getRandomColor()}, ${getRandomColor()})`;
     }));
 }
 let colorChoice = drawBlack();
 
-blackButton.addEventListener('click', function() {
+blackButton.addEventListener('click', function () {
     colorChoice = drawBlack();
 });
-colorButton.addEventListener('click', function() {
+colorButton.addEventListener('click', function () {
     colorChoice = drawRandomColor();
 });
 
@@ -73,10 +70,9 @@ function reset() {
         container.removeChild(container.firstChild)
     }
     makeGrid();
-    
-}
 
+}
 
 resetButton.addEventListener('click', reset);
 
-// keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+makeGrid();
