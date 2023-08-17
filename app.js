@@ -2,16 +2,19 @@ const container = document.querySelector('#container');
 const resetButton = document.querySelector('#reset');
 const gridValue = document.querySelector('#gridValue');
 const slider = document.querySelector('#slider');
-const gridNums = [16, 24, 48, 64, 80, 100]
 
-let gridSize = gridNums[0] * gridNums[0]
-let boxSize = Math.sqrt((400 * 400) / (parseInt(gridSize)));
+let gridSize = parseInt(slider.value * slider.value);
 
-// slider.addEventListener('change', function () {
-//     gridValue.textContent = slider.value;
-// });
+gridValue.textContent = `${slider.value} x ${slider.value}`;
+
+slider.addEventListener('change', function () {
+    gridValue.innerText = `${slider.value} x ${slider.value}`;
+    gridSize = parseInt(slider.value * slider.value);
+    reset();
+});
 
 function makeGrid() {
+    let boxSize = Math.sqrt((400 * 400) / (gridSize));
     for (let i = 0; i < gridSize; i++) {
         const square = document.createElement('div');
         square.classList.add('square');
@@ -20,23 +23,23 @@ function makeGrid() {
         square.style.borderLeft = '1px rgb(210, 210, 210) solid';
         square.style.borderBottom = '1px rgb(210, 210, 210) solid';
         container.append(square);
-        const topSquares = document.querySelectorAll(`.square:nth-child(-n + ${gridNums[0]})`);
-        const rightSquares = document.querySelectorAll(`.square:nth-child(${gridNums[0]}n)`);
-    
+        const topSquares = document.querySelectorAll(`.square:nth-child(-n + ${slider.value})`);
+        const rightSquares = document.querySelectorAll(`.square:nth-child(${slider.value}n)`);
+
         topSquares.forEach(topSquare => {
             topSquare.style.borderTop = '1px rgb(210, 210, 210) solid'
         });
-    
+
         rightSquares.forEach(rightSquare => {
             rightSquare.style.borderRight = '1px rgb(210, 210, 210) solid'
         });
-    
+
     }
-    draw();
+    drawBlack();
 }
 makeGrid();
 
-function draw () {
+function drawBlack() {
     let gridBox = document.querySelectorAll('.square');
     gridBox.forEach((box) => box.addEventListener('mouseover', function (e) {
         box.style.backgroundColor = 'black';
@@ -47,11 +50,10 @@ function reset() {
     while (container.hasChildNodes()) {
         container.removeChild(container.firstChild)
     }
-      makeGrid(); 
-      draw();
-    }
+    makeGrid();
+}
 
-   
+
 
 
 
