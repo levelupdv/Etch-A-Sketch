@@ -13,7 +13,17 @@
 
     </div>
     <button id="reset">Reset</button>
-
+    <label for="slider">Choose your grid size</label>
+    <input type="range" name="slider" id="slider" min="16" max="96" step="16" list="markers">
+    <p>Grid Size: <output id="gridValue"></output></p>
+    <datalist id="markers">
+        <option value="16"></option>
+        <option value="32"></option>
+        <option value="48"></option>
+        <option value="64"></option>
+        <option value="80"></option>
+        <option value="96"></option>
+      </datalist>
     <script src="./app.js"></script>
 </body>
 
