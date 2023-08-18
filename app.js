@@ -27,7 +27,7 @@ function makeGrid() {
         square.style.height = `${boxSize}px`;
         square.style.borderLeft = '1px rgb(210, 210, 210) solid';
         square.style.borderBottom = '1px rgb(210, 210, 210) solid';
-        square.style.backgroundColor = 'white';
+        square.style.backgroundColor = 'rgb(255, 255, 255)';
         container.append(square);
     }
     const topSquares = document.querySelectorAll(`.square:nth-child(-n + ${slider.value})`);
@@ -43,14 +43,16 @@ function makeGrid() {
         drawBlack();
     } else if (penColor === "rainbow") {
         drawRandomColor();
-    } else { shadingColor();}
+    } else if (penColor === "shading") {
+         shadingColor();
+    }
 }
 
 
 function drawBlack() {
-    let gridBox = document.querySelectorAll('.square');
-    gridBox.forEach((box) => box.addEventListener('mouseover', function () {
-        box.style.backgroundColor = 'black';
+    const gridBox = document.querySelectorAll('.square');
+    gridBox.forEach((box) => box.addEventListener('mouseenter', function () {
+        box.style.backgroundColor = 'rgb(0, 0, 0)';
     }));
 }
 
@@ -60,19 +62,27 @@ function getRandomColor(random) {
 }
 
 function drawRandomColor() {
-    let gridBox = document.querySelectorAll('.square');
-    gridBox.forEach((box) => box.addEventListener('mouseover', function () {
+    const gridBox = document.querySelectorAll('.square');
+    gridBox.forEach((box) => box.addEventListener('mouseenter', function () {
         box.style.backgroundColor = `rgb(${getRandomColor()}, ${getRandomColor()}, ${getRandomColor()})`;
     }));
 }
 
 function shadingColor() {
-    let gridBox = document.querySelectorAll('.square');
-    gridBox.forEach((box) => box.addEventListener('mouseover', function () {
-        // const div = document.querySelector('.square')
+    const gridBox = document.querySelectorAll('.square');
+    gridBox.forEach((box) => box.addEventListener('mouseenter', function () {
         // const toRGBArray = rgbStr => rgbStr.match(/\d+/g).map(Number);
-        // let rgb = toRGBArray(div.style.backgroundColor);
-        // console.log(rgb);
+        // let rgbArray = toRGBArray(box.style.backgroundColor);
+        // console.log((255 - rgbArray[0]) / 10 + rgbArray[0]);
+        // box.style.backgroundColor = 
+        // `rgb(
+        // ${parseInt(((255 - rgbArray[0]) / 10) + rgbArray[0])}, 
+        // ${parseInt(((255 - rgbArray[1]) / 10) + rgbArray[1])},
+        // ${parseInt(((255 - rgbArray[2]) / 10) + rgbArray[2])}
+        // )`;
+        // box.style.backgroundColor = `blue`;
+        console.log(box.style.backgroundColor);
+
     }));
 }
 
@@ -96,7 +106,6 @@ function reset() {
     makeGrid();
 
 }
-
 resetButton.addEventListener('click', reset);
 
 makeGrid();
