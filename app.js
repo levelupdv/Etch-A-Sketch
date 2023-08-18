@@ -4,9 +4,11 @@ const gridValue = document.querySelector('#gridValue');
 const slider = document.querySelector('#slider');
 const blackButton = document.querySelector('#blackColor');
 const colorButton = document.querySelector('#randomColor');
+const shadingButton = document.querySelector('#shading');
 
 
 let gridSize = parseInt(slider.value * slider.value);
+let penColor = "black";
 
 slider.addEventListener('input', function () {
     gridValue.innerText = `${slider.value} x ${slider.value}`;
@@ -25,6 +27,7 @@ function makeGrid() {
         square.style.height = `${boxSize}px`;
         square.style.borderLeft = '1px rgb(210, 210, 210) solid';
         square.style.borderBottom = '1px rgb(210, 210, 210) solid';
+        square.style.backgroundColor = 'white';
         container.append(square);
     }
     const topSquares = document.querySelectorAll(`.square:nth-child(-n + ${slider.value})`);
@@ -35,8 +38,14 @@ function makeGrid() {
     rightSquares.forEach(rightSquare => {
         rightSquare.style.borderRight = '1px rgb(210, 210, 210) solid'
     });
-    drawBlack();
+    
+    if (penColor === "black") {
+        drawBlack();
+    } else if (penColor === "rainbow") {
+        drawRandomColor();
+    } else { shadingColor();}
 }
+
 
 function drawBlack() {
     let gridBox = document.querySelectorAll('.square');
@@ -56,13 +65,28 @@ function drawRandomColor() {
         box.style.backgroundColor = `rgb(${getRandomColor()}, ${getRandomColor()}, ${getRandomColor()})`;
     }));
 }
-let colorChoice = drawBlack();
+
+function shadingColor() {
+    let gridBox = document.querySelectorAll('.square');
+    gridBox.forEach((box) => box.addEventListener('mouseover', function () {
+        // const div = document.querySelector('.square')
+        // const toRGBArray = rgbStr => rgbStr.match(/\d+/g).map(Number);
+        // let rgb = toRGBArray(div.style.backgroundColor);
+        // console.log(rgb);
+    }));
+}
 
 blackButton.addEventListener('click', function () {
-    colorChoice = drawBlack();
+    drawBlack();
+    penColor = "black";
 });
 colorButton.addEventListener('click', function () {
-    colorChoice = drawRandomColor();
+    drawRandomColor();
+    penColor = "rainbow";
+});
+shadingButton.addEventListener('click', function () {
+    shadingColor();
+    penColor = "shading"
 });
 
 function reset() {
