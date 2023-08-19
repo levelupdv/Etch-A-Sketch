@@ -6,9 +6,8 @@ const blackButton = document.querySelector('#blackColor');
 const colorButton = document.querySelector('#randomColor');
 const shadingButton = document.querySelector('#shading');
 
-
 let gridSize = parseInt(slider.value * slider.value);
-let penColor = "black";
+let color = "black";
 
 slider.addEventListener('input', function () {
     gridValue.innerText = `${slider.value} x ${slider.value}`;
@@ -38,65 +37,67 @@ function makeGrid() {
     rightSquares.forEach(rightSquare => {
         rightSquare.style.borderRight = '1px rgb(210, 210, 210) solid'
     });
-    
-    if (penColor === "black") {
-        drawBlack();
-    } else if (penColor === "rainbow") {
-        drawRandomColor();
-    } else if (penColor === "shading") {
-         shadingColor();
+
+    penColor();
+}
+
+let hslValue = [];
+
+function rgbToHsl(r, g, b) {
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+
+    if (max == min) {
+        h = s = 0;
+    } else {
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
     }
+
+    hslValue = [Math.floor(h * 360), Math.floor(s * 100), Math.floor(l * 100)];
 }
 
-
-function drawBlack() {
+function penColor() {
     const gridBox = document.querySelectorAll('.square');
-    gridBox.forEach((box) => box.addEventListener('mouseenter', function () {
-        box.style.backgroundColor = 'rgb(0, 0, 0)';
-    }));
-}
+    gridBox.forEach((box) => box.addEventListener('mouseover', function () {
 
-function getRandomColor(random) {
-    random = Math.floor(Math.random() * 256);
-    return random;
-}
+        if (color === "black") {
+            this.style.backgroundColor = 'hsl(0,0%,0%)';
+        } else if (color === "rainbow") {
+            this.style.backgroundColor = `hsl(
+                ${Math.floor(Math.random() * 361)},100%,50%)`;
+        } else if (color === "shading") {
+            const toRGBArray = rgbStr => rgbStr.match(/\d+/g).map(Number);
+            const rgbArray = toRGBArray(this.style.backgroundColor);
 
-function drawRandomColor() {
-    const gridBox = document.querySelectorAll('.square');
-    gridBox.forEach((box) => box.addEventListener('mouseenter', function () {
-        box.style.backgroundColor = `rgb(${getRandomColor()}, ${getRandomColor()}, ${getRandomColor()})`;
-    }));
-}
+            rgbToHsl(rgbArray[0], rgbArray[1], rgbArray[2]);
 
-function shadingColor() {
-    const gridBox = document.querySelectorAll('.square');
-    gridBox.forEach((box) => box.addEventListener('mouseenter', function () {
-        // const toRGBArray = rgbStr => rgbStr.match(/\d+/g).map(Number);
-        // let rgbArray = toRGBArray(box.style.backgroundColor);
-        // console.log((255 - rgbArray[0]) / 10 + rgbArray[0]);
-        // box.style.backgroundColor = 
-        // `rgb(
-        // ${parseInt(((255 - rgbArray[0]) / 10) + rgbArray[0])}, 
-        // ${parseInt(((255 - rgbArray[1]) / 10) + rgbArray[1])},
-        // ${parseInt(((255 - rgbArray[2]) / 10) + rgbArray[2])}
-        // )`;
-        // box.style.backgroundColor = `blue`;
-        console.log(box.style.backgroundColor);
-
+            if (hslValue[1] === 100) {
+                this.style.backgroundColor =
+                    `hsl(${hslValue[0]},${hslValue[1]}%,${hslValue[2] - 5}%)`;
+            } else if (hslValue[1] === 0 && hslValue[2] != 0) {
+                this.style.backgroundColor =
+                    `hsl(${hslValue[0]},${hslValue[1]}%,${hslValue[2] - 10}%)`;
+            }
+        }
     }));
 }
 
 blackButton.addEventListener('click', function () {
-    drawBlack();
-    penColor = "black";
+    color = "black";
 });
 colorButton.addEventListener('click', function () {
-    drawRandomColor();
-    penColor = "rainbow";
+    color = "rainbow";
 });
 shadingButton.addEventListener('click', function () {
-    shadingColor();
-    penColor = "shading"
+    color = "shading";
 });
 
 function reset() {
@@ -104,8 +105,8 @@ function reset() {
         container.removeChild(container.firstChild)
     }
     makeGrid();
-
 }
+
 resetButton.addEventListener('click', reset);
 
 makeGrid();
