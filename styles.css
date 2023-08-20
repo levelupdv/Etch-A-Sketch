@@ -99,4 +99,8 @@ input[type="range"] {
     rotate: 270deg;
     height: 200px;
     margin-top: 200px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    color: rgb(228, 228, 148);
+    text-shadow: -3px 5px 5px black;
 }
