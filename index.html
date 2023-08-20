@@ -5,27 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Etch a Sketch by levelUpDv</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles.css">
 </head>
 
 <body>
-    <h1>Etch a Sketch</h1>
-    <div id="container">
-
+    <div class="buttons">
+        <button id="blackColor">Black Pen</button>
+        <button id="randomColor">Rainbow Pen</button>
+        <button id="shading">Shading Pen</button>
+        <button id="reset">Reset</button>
     </div>
-    <button id="blackColor">Color Black</button>
-    <button id="randomColor">Color Random</button>
-    <button id="shading">Shades of Colors</button>
-    <button id="reset">Reset</button>
-    <label for="slider">Choose your grid size</label>
-    <input type="range" name="slider" id="slider" value="16" min="16" max="64" step="16" list="markers">
+    <div class="body">
+        <h1>Etch a Sketch</h1>
+        <div id="container"></div>
+        <div class="footer">
+            <label for="slider">Choose your grid size</label>
+            <p>Grid Size: <output id="gridValue"></output></p>
+        </div>
+    </div>
+    <div class="slider">
+        <input type="range" name="slider" id="slider" value="16" min="16" max="64" step="16" list="markers">
         <datalist id="markers">
-        <option value="16"></option>
-        <option value="32"></option>
-        <option value="48"></option>
-        <option value="64"></option>
-      </datalist>
-      <p>Grid Size: <output id="gridValue"></output></p>
+            <option value="16" label="16"></option>
+            <option value="32" label="32"></option>
+            <option value="48" label="48"></option>
+            <option value="64" label="64"></option>
+        </datalist>
+    </div>
     <script src="./app.js"></script>
 </body>
 
